@@ -15,6 +15,14 @@
 html,
 body {
 	height: 100%;
+	font-family: "Noto Sans TC", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+h1,
+h2,
+h3 {
 	font-family: "Huninn", sans-serif;
 	font-weight: 400;
 	font-style: normal;
@@ -41,7 +49,7 @@ nav {
 	margin-bottom: var(--base-gap);
 }
 
-a {
+nav a {
 	color: var(--text-color);
 	transition: 0.2s ease-in-out;
 	background-color: transparent;
@@ -49,10 +57,9 @@ a {
 	text-decoration: none;
 }
 
-a:hover {
+nav a:hover {
 	background-color: var(--overlay-0-color);
 	border-radius: calc(0.5 * var(--base-padding));
-	;
 }
 
 
@@ -68,12 +75,47 @@ a:hover {
 .side-bar {
 	display: flex;
 	justify-content: start;
-	align-items: center;
 	flex-direction: column;
 	flex: 1;
 	background-color: var(--secondary-pane-color);
 	border-radius: var(--base-padding);
 	padding: var(--base-padding);
+}
+
+.side-bar h1 {
+	align-self: center;
+}
+
+.side-bar ul {
+	margin-left: 0;
+	padding-left: 0;
+	list-style-type: none;
+}
+
+.side-bar li {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.side-bar a,
+.main-content a {
+	color: var(--blue);
+	text-decoration: none;
+	transition: 0.2s ease-in-out;
+}
+
+.side-bar a:hover,
+.main-content a:hover {
+	color: var(--sky);
+}
+
+.avatar {
+	align-self: center;
+	border-radius: 50%;
+	max-width: 100%;
+	width: 75%;
+	height: auto;
 }
 
 .main-content {
@@ -88,11 +130,4 @@ a:hover {
 	padding: calc(2 * var(--base-padding));
 	background-color: var(--secondary-pane-color);
 	border-radius: var(--base-radius);
-}
-
-.avatar {
-	border-radius: 50%;
-	max-width: 100%;
-	width: 75%;
-	height: auto;
 }
