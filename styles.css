@@ -23,6 +23,10 @@
 	}
 }
 
+* {
+	box-sizing: border-box;
+}
+
 html,
 body {
 	height: 100%;
@@ -46,8 +50,9 @@ body {
 	color: var(--text-color);
 	margin: 0;
 	padding: 20px;
-	overflow: hidden;
-	min-height: 100vh - 4rem;
+	overflow-x: hidden;
+	overflow-y: auto;
+	min-height: calc(100vh - 4rem);
 }
 
 nav {
@@ -141,4 +146,29 @@ nav a:hover {
 	padding: calc(2 * var(--base-padding));
 	background-color: var(--secondary-pane-color);
 	border-radius: var(--base-radius);
+}
+
+@media (max-width: 768px) {
+
+	html,
+	body {
+		height: auto;
+		overflow-y: auto;
+	}
+
+	.container {
+		flex-direction: column;
+		height: auto;
+		overflow-y: visible;
+	}
+
+	.side-bar {
+		flex: none;
+		width: 100%;
+	}
+
+	.main-content {
+		flex: none;
+		width: 100%;
+	}
 }
