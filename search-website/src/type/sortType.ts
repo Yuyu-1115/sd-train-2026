@@ -1,5 +1,5 @@
 export enum sortType {
-  POPULARITY,
-  TITLE,
-  TIME,
+  POPULARITY = 'popularity',
+  TITLE = 'title',
+  TIME = 'time',
 }
