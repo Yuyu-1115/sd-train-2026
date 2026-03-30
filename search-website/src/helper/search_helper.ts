@@ -9,7 +9,7 @@ export interface SearchSession {
 }
 
 function getMatches(query: string, type: sortType): searchData[] {
-  return searchDataSet.filter((item) => item.title.includes(query)).sort(sortBy(type))
+  return searchDataSet.filter((item) => item.text.includes(query)).sort(sortBy(type))
 }
 
 export function* paginateSearch(

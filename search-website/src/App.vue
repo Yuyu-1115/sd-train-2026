@@ -73,7 +73,7 @@ onMounted(() => startSearch())
         />
         <button
           @click="updateUrl"
-          class="h-10 px-5 border rounded-full border-gray-300 font-medium whitespace-nowrap"
+          class="h-10 px-5 border rounded-full border-gray-300 font-medium whitespace-nowrap hover:bg-gray-400"
         >
           搜尋
         </button>
