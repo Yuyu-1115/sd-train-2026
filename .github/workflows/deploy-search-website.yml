@@ -1,4 +1,4 @@
-name: Deploy search-website
+name: Deploy Pages sites
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'search-website/**'
+      - 'personal-website/**'
       - '.github/workflows/deploy-search-website.yml'
   workflow_dispatch:
 
@@ -15,15 +16,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-search-website
+  group: pages-sites
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: search-website
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,17 +32,58 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
+        working-directory: search-website
         run: bun install --frozen-lockfile
 
-      - name: Build
+      - name: Build search-website
+        working-directory: search-website
         env:
           VITE_BASE_PATH: /sd-train-2026/search-website/
         run: bun run build
 
       - name: Prepare Pages artifact
         run: |
-          mkdir -p pages/search-website
-          cp -R dist/. pages/search-website/
+          mkdir -p pages/search-website pages/personal-website
+          cp -R search-website/dist/. pages/search-website/
+          cp personal-website/index.html personal-website/styles.css pages/personal-website/
+          cat > pages/index.html <<'HTML'
+          <!doctype html>
+          <html lang="zh-Hant">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>sd-train-2026</title>
+              <style>
+                body {
+                  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                  margin: 0;
+                  padding: 2rem;
+                  line-height: 1.6;
+                }
+                main {
+                  max-width: 720px;
+                  margin: 0 auto;
+                }
+                ul {
+                  padding-left: 1.25rem;
+                }
+                a {
+                  color: #2563eb;
+                }
+              </style>
+            </head>
+            <body>
+              <main>
+                <h1>SD Train 2026</h1>
+                <p>Projects deployed from this repository:</p>
+                <ul>
+                  <li><a href="/sd-train-2026/personal-website/">personal-website</a></li>
+                  <li><a href="/sd-train-2026/search-website/">search-website</a></li>
+                </ul>
+              </main>
+            </body>
+          </html>
+          HTML
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -52,7 +91,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: search-website/pages
+          path: pages
 
   deploy:
     environment:
