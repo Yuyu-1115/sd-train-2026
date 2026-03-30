@@ -38,8 +38,13 @@ jobs:
 
       - name: Build
         env:
-          VITE_BASE_PATH: /search-website/
+          VITE_BASE_PATH: /sd-train-2026/search-website/
         run: bun run build
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p pages/search-website
+          cp -R dist/. pages/search-website/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -47,7 +52,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: search-website/dist
+          path: search-website/pages
 
   deploy:
     environment:
