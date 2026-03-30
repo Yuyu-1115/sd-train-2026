@@ -5,7 +5,7 @@ import { sortType } from './type/sortType'
 import { sortOptions } from './helper/sort_helper'
 import { useRoute, useRouter } from 'vue-router'
 import type { searchData } from './type/searchData'
-import { paginateSearch } from './helper/search_helper'
+import { createSearchSession } from './helper/search_helper'
 
 const router = useRouter()
 const route = useRoute()
@@ -16,9 +16,12 @@ const sortOption = ref((route.query.s as unknown as sortType) || sortType.POPULA
 const searcher = ref<Generator<searchData[]>>()
 const result = ref<searchData[]>([])
 const hasMore = ref(true)
+const totalResults = ref(0)
 
 const startSearch = () => {
-  searcher.value = paginateSearch(searchQuery.value, sortOption.value)
+  const session = createSearchSession(searchQuery.value, sortOption.value)
+  totalResults.value = session.total
+  searcher.value = session.pages
   const firstChunk = searcher.value.next()
   result.value = firstChunk.value || []
   hasMore.value = !firstChunk.done
@@ -59,20 +62,30 @@ onMounted(() => startSearch())
 
 <template>
   <div class="box-border flex-col min-h-screen h-full p-5">
-    <div class="flex flex-wrap items-center justify-between min-h-1/3 px-3 py-2 md:p-10">
+    <div class="flex flex-wrap items-center justify-between min-h-1/3 px-3 py-2 gap-1 md:p-10">
       <div class="text-3xl order-1">SD Search</div>
-      <div class="flex w-full md:w-auto md:flex-1 md:mx-4 order-3 md:order-2">
+      <div class="flex w-full md:w-auto md:flex-1 md:mx-4 order-3 md:order-2 items-center gap-2">
         <input
           type="text"
           v-model="searchQuery"
           @change="updateUrl"
-          class="w-full border rounded-full p-2"
+          class="w-full h-10 border border-gray-300 rounded-full px-4 outline-none focus:ring-2"
         />
-        <button @click="updateUrl" class="w-auto border rounded bg-gray-400">搜尋</button>
+        <button
+          @click="updateUrl"
+          class="h-10 px-5 border rounded-full border-gray-300 font-medium whitespace-nowrap"
+        >
+          搜尋
+        </button>
       </div>
-      <div class="w-10 h-10 order-2 md:order-3">Icon</div>
+      <img
+        src="/NCULogo.svg"
+        alt="NCU Logo"
+        class="w-10 h-10 border border-gray-300 rounded-full order-2 md:order-3 object-contain"
+      />
     </div>
     <div class="flex flex-col grow h-full gap-5">
+      <p>共找到 {{ totalResults }} 筆結果</p>
       <div class="flex gap-2">
         <p>排序方式</p>
         <select v-model="sortOption" @change="updateUrl" class="border rounded-sm">
