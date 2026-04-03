@@ -33,7 +33,7 @@ jobs:
         with:
           context: .
           file: hw1.Dockerfile
-          tags: ghcr.io//${{ env.repo_lc }}/hw1:${{ github.ref_name }}
+          tags: ghcr.io/${{ env.repo_lc }}/hw1:${{ github.ref_name }}
           push: true
 
       - name: Build HW2 and Push
@@ -41,5 +41,5 @@ jobs:
         with:
           context: .
           file: hw2.Dockerfile
-          tags: ghcr.io//${{ env.repo_lc }}/hw2:${{ github.ref_name }}
+          tags: ghcr.io/${{ env.repo_lc }}/hw2:${{ github.ref_name }}
           push: true
