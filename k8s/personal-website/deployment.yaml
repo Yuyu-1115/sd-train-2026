@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sd-train-hw1
+  labels:
+    app: sd-train-hw1
+spec:
+  selector:
+    matchLabels:
+      app: sd-train-hw1
+  template:
+    metadata:
+      labels:
+        app: sd-train-hw1
+    spec:
+      containers:
+        - name: sd-train-hw1
+          image: ghcr.io/yuyu-1115/sd-train-hw1:v2
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memmory: "256Mi"
